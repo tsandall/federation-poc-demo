@@ -1,0 +1,23 @@
+apiVersion: extensions/v1beta1
+kind: ReplicaSet
+metadata:
+  annotations:
+    requires-eu-jurisdiction: "true"
+    requires-pci-compliance: "true"
+  labels:
+    app: nginx-eu-pci
+  name: nginx-eu-pci
+spec:
+  replicas: 4
+  selector:
+    matchLabels:
+      app: nginx-eu-pci
+  template:
+    metadata:
+      labels:
+        app: nginx-eu-pci
+    spec:
+      containers:
+      - image: nginx:1.10
+        imagePullPolicy: IfNotPresent
+        name: nginx-eu-pci

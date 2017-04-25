@@ -1,0 +1,26 @@
+apiVersion: extensions/v1beta1
+kind: ReplicaSet
+metadata:
+  annotations:
+    # This annotation tells the system that the app must be deployed within the
+    # EU. The policy will use this app when computing the placement decision.
+    # The annotation key (and value format) are not special; the admin defines
+    # these when creating the policy.
+    requires-eu-jurisdiction: "true"
+  labels:
+    app: nginx-eu
+  name: nginx-eu
+spec:
+  replicas: 4
+  selector:
+    matchLabels:
+      app: nginx-eu
+  template:
+    metadata:
+      labels:
+        app: nginx-eu
+    spec:
+      containers:
+      - image: nginx:1.10
+        imagePullPolicy: IfNotPresent
+        name: nginx-eu

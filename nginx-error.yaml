@@ -1,0 +1,33 @@
+apiVersion: extensions/v1beta1
+kind: ReplicaSet
+metadata:
+  annotations:
+    requires-eu-jurisdiction: "true"
+    federation.kubernetes.io/replica-set-preferences: |
+      {
+        "clusters": {
+          "gce-europe-west1": {
+            "weight": 1
+          },
+          "gce-us-central1": {
+            "weight": 1
+          }
+        }
+      }
+  labels:
+    app: nginx-error
+  name: nginx-error
+spec:
+  replicas: 4
+  selector:
+    matchLabels:
+      app: nginx-error
+  template:
+    metadata:
+      labels:
+        app: nginx-error
+    spec:
+      containers:
+      - image: nginx:1.10
+        imagePullPolicy: IfNotPresent
+        name: nginx-error
